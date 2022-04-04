@@ -1,5 +1,18 @@
 import { useState } from "react";
 
+const Title = ({text}) => <h2>{text}</h2>
+
+const Display = ({anecdotes, votes, index}) => {
+  return (
+    <>
+      <p>{anecdotes[index]}</p>
+      <p>has {votes[index]} vote(s)</p>
+    </>
+  )
+}
+
+const Button = ({onClick, text}) => <button onClick={onClick}>{text}</button>
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often',
@@ -17,7 +30,7 @@ const App = () => {
 
   const randomize = () => {
     const number = Math.floor(Math.random() * 7)
-    console.log(number)
+    //console.log(number)
     setSelected(number)
   }
   const updateVotes = () => {
@@ -27,25 +40,22 @@ const App = () => {
     votesCopy[selected] +=1
     //console.log('updated array', votesCopy)
     setVotes(votesCopy)
-    //console.log('state after update on index ',selected,': ', votes)
   }
 
   const getMostVotedIndex = () => {
     const max = Math.max(...votes);
-    console.log(max)
+    //console.log(max)
     return votes.indexOf(max)
   }
-  //to-do refactor heading, paragraph and button elements
+  
   return (
     <div>
-      <h2>Anecdote of the day</h2>
-      <p>{anecdotes[selected]}</p>
-      <p>has {votes[selected]} votes</p>
-      <button onClick={updateVotes}>vote</button>
-      <button onClick={randomize}>next anecdote</button>
-      <h2>Anecdote with most votes</h2>
-      <p>{anecdotes[getMostVotedIndex()]}</p>
-      <p>has {votes[getMostVotedIndex()]} votes</p>
+      <Title text= 'Anecdote of the day' />
+      <Display anecdotes={anecdotes} votes={votes} index={selected} />
+      <Button onClick={updateVotes} text='vote' />
+      <Button onClick={randomize} text='next anecdote' />
+      <Title text='Anecdote with most votes' />
+      <Display anecdotes={anecdotes} votes={votes} index={getMostVotedIndex()} />
     </div>
   )
 }
